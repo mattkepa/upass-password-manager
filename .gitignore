@@ -1,0 +1,14 @@
+# OS and VSCode configuration files
+.DS_Store
+.vscode/
+
+# Byte-compiled
+__pycache__/
+*.py[cod]
+
+# Environments
+.venv/
+.env
+
+# Configuration files
+*.ini
