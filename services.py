@@ -104,3 +104,25 @@ def add_entry(db_conn, user, key):
     console.print('[green][+][/green] Entry successfully added')
     print()
     input('Press ENTER to continue...  ')
+
+
+def get_entries(db_conn, user):
+    """
+    Fetches list of entries for current user
+    """
+    try:
+        cursor = db_conn.cursor()
+        query = 'SELECT site_name, email, site_url FROM entries WHERE user_id=%s;'
+        cursor.execute(query, (user['uid'],))
+        db_conn.commit()
+        response = cursor.fetchall()
+        cursor.close()
+    except Exception:
+        console.print('Error: Something went wrong. Please try again later', style='red')
+        if cursor:
+            cursor.close()
+        print()
+        input('Press ENTER to continue...  ')
+        return
+
+    return response

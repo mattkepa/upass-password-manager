@@ -2,6 +2,7 @@ import os
 import random
 import string
 from Crypto.Cipher import AES
+from tabulate import tabulate
 from rich.console import Console
 
 
@@ -55,6 +56,23 @@ def display_menu():
     console.print('  [cyan][3][/cyan] -- Get password for app/site')
     console.print('  [red][0][/red] -- Exit')
     console.print('-' * 36)
+
+
+def display_entries(data):
+    """
+    Displays list of entries in read-friendly table form
+    """
+    headers = ['Site/App Name', 'E-mail', 'Site URL']
+
+    if not data:
+        print('+' + '-' * 34 + '+')
+        print('|' + ' You don\'t have any entries yet'.ljust(34) + '|')
+        print('+' + '-' * 34 + '+')
+    else:
+        print(tabulate(data, headers=headers, tablefmt='grid'))
+
+    print()
+    input('Press ENTER to continue...  ')
 
 
 def console_clear():

@@ -1,8 +1,8 @@
 import bcrypt
 from Crypto.Protocol.KDF import PBKDF2
 from getpass import getpass
-from services import connect_db, add_entry
-from utils import console, display_menu, console_clear
+from services import connect_db, add_entry, get_entries
+from utils import console, display_menu, display_entries, console_clear
 
 
 #
@@ -83,9 +83,12 @@ while True:
         add_entry(db, user, key)
         console_clear()
     elif choice == '2':
-        console.print('Entries'.center(36), style='bold')
+        console_clear()
+        console.print('\tEntries', style='bold')
         print('=' * 36)
-        # todo: get and display entries functions
+        entries = get_entries(db, user)
+        display_entries(entries)
+        console_clear()
     elif choice == '3':
         print('*** Get Password ***'.center(36))
         print('=' * 36)
