@@ -1,8 +1,46 @@
 import os
+import random
+import string
+from Crypto.Cipher import AES
 from rich.console import Console
 
 
 console = Console()
+
+
+def encrypt_password(data, key):
+    """
+    Enctypts password with given key and returns encrypted data in bytes array with IV in first 16 bytes
+    """
+    cipher = AES.new(key, AES.MODE_CFB)
+    iv = cipher.iv
+    encrypted_password = cipher.encrypt(bytes(data, 'utf-8'))
+    encrypted_data = iv + encrypted_password    # add Initialization Vector to 16 first bytes of enctypted password
+    return encrypted_data
+
+
+def generate_random_password(length=18):
+    """
+    Generates random password from set of letters, digits and psecial characters
+    with specified length (default is 18)
+    """
+    random_source_set = string.ascii_letters + string.digits + '!@#$%^&(){}[]-_'
+
+    password_chars = []
+    password_chars.append(random.choice(string.ascii_lowercase)) # select 1 lowercase
+    password_chars.append(random.choice(string.ascii_uppercase)) # select 1 upperrcase
+    password_chars.append(random.choice(string.digits)) # select 1 digit
+    password_chars.append(random.choice('!@#$%^&(){}[]-_')) # select 1 special character
+
+    # generate other remaining characters
+    for _ in range(length - 4):
+        password_chars.append(random.choice(random_source_set))
+
+    # shuffle all characters
+    random.shuffle(password_chars)
+
+    password = ''.join(password_chars)
+    return password
 
 
 def display_menu():

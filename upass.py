@@ -1,6 +1,7 @@
 import bcrypt
+from Crypto.Protocol.KDF import PBKDF2
 from getpass import getpass
-from services import connect_db
+from services import connect_db, add_entry
 from utils import console, display_menu, console_clear
 
 
@@ -61,6 +62,10 @@ while not authenticated:
     else:
         console.print('Invalid username or password.', style='red')
 
+#
+# Generate key for encryption and decryption
+key = PBKDF2(password, user['salt'], dkLen=32)
+
 
 #
 # Main program loop
@@ -72,9 +77,11 @@ while True:
     print()
 
     if choice == '1':
+        console_clear()
         print('+++ Create new entry +++'.center(36))
         print('=' * 36)
-        # todo: add entry fuction
+        add_entry(db, user, key)
+        console_clear()
     elif choice == '2':
         console.print('Entries'.center(36), style='bold')
         print('=' * 36)
