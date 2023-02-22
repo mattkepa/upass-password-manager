@@ -96,6 +96,7 @@ while True:
         get_password(db, user, key)
         console_clear()
     elif choice == '0':
+        console_clear()
         break
     else:
         console.print('Incorrect option selected', style='red')
