@@ -107,6 +107,68 @@ def add_entry(db_conn, user, key):
     input('Press ENTER to continue...  ')
 
 
+def delete_entry(db_conn, user):
+    """
+    Gets app/site name and email from user and deletes entry for this app/site
+    """
+
+    # Get site/app name from user
+    while True:
+        app_name = input('Site/app name:  ')
+        if len(app_name) == 0:
+            console.print('Field cannot be empty', style='red')
+            continue
+        else:
+            break
+
+    # Get email from user
+    while True:
+        email = input('E-mail:  ')
+        if len(email) == 0:
+            console.print('Field cannot be empty', style='red')
+            continue
+        else:
+            break
+
+    # Get confirmation
+    print()
+    while True:
+        confirm = input('Are you sure you want to delete this entry? (y/n):  ')
+        confirm = confirm.lower()
+        if confirm == 'y' or confirm == 'n':
+            break
+        else:
+            console.print('Invalid input', style='red')
+    # Exit this function
+    if confirm == 'n':
+        return
+
+    try:
+        cursor = db_conn.cursor()
+        query = 'DELETE FROM entries WHERE site_name=%s AND email=%s AND user_id=%s;'
+        cursor.execute(query, (app_name, email, user['uid']))
+        db_conn.commit()
+        response = cursor.statusmessage
+        cursor.close()
+    except Exception:
+        console.print('Error: Something went wrong. Please try again later', style='red')
+        if cursor:
+            cursor.close()
+        print()
+        input('Press ENTER to continue...  ')
+        return
+
+    # Output status message
+    print('-' * 36)
+    # Check if entry existed
+    if response == 'DELETE 0':
+        console.print('[red][X][/red] Entry for this site/app and email did not exist')
+    else:
+        console.print('[orange1][-][/orange1] Entry deleted successfully.')
+    print()
+    input('Press ENTER to continue...  ')
+
+
 def get_entries(db_conn, user):
     """
     Fetches list of entries for current user

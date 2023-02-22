@@ -1,7 +1,7 @@
 import bcrypt
 from Crypto.Protocol.KDF import PBKDF2
 from getpass import getpass
-from services import connect_db, add_entry, get_entries, get_password
+from services import connect_db, add_entry, get_entries, get_password, delete_entry
 from utils import console, display_menu, display_entries, console_clear
 
 
@@ -94,6 +94,12 @@ while True:
         print('*** Get Password ***'.center(36))
         print('=' * 36)
         get_password(db, user, key)
+        console_clear()
+    elif choice == '4':
+        console_clear()
+        print('--- Delete entry ---'.center(36))
+        print('=' * 36)
+        delete_entry(db, user)
         console_clear()
     elif choice == '0':
         console_clear()

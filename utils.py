@@ -66,6 +66,7 @@ def display_menu():
     console.print('  [green][1][/green] -- Add new entry')
     console.print('  [cyan][2][/cyan] -- Show user\'s apps/sites')
     console.print('  [cyan][3][/cyan] -- Get password for app/site')
+    console.print('  [orange1][4][/orange1] -- Delete entry for app/site')
     console.print('  [red][0][/red] -- Exit')
     console.print('-' * 36)
 
