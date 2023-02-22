@@ -20,6 +20,18 @@ def encrypt_password(data, key):
     return encrypted_data
 
 
+def decrypt_password(data, key):
+    """
+    Decrypts password with given key and returns plain text password
+    """
+    IV = data[:16] # extract Initialization Vector from 16 first bytes of enctypted password
+    encrypted_pass = data[16:] # extract encrypted password from the rest of encrypted stored data
+
+    cipher = AES.new(key, AES.MODE_CFB, iv=IV)
+    decrypted_password = cipher.decrypt(encrypted_pass).decode('utf-8')
+    return decrypted_password
+
+
 def generate_random_password(length=18):
     """
     Generates random password from set of letters, digits and psecial characters

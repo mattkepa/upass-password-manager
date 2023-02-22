@@ -1,6 +1,7 @@
 import psycopg2
+import pyperclip
 from config import db_config
-from utils import console, generate_random_password, encrypt_password
+from utils import console, generate_random_password, encrypt_password, decrypt_password
 
 
 def connect_db():
@@ -126,3 +127,63 @@ def get_entries(db_conn, user):
         return
 
     return response
+
+
+def get_password(db_conn, user, key):
+    """
+    Gets password for specified entry (by app/site name and email) and copy it to the clipboard
+    """
+
+    # Get site/app name from user
+    while True:
+        app_name = input('Site/app name:  ')
+        if len(app_name) == 0:
+            console.print('Field cannot be empty', style='red')
+            continue
+        else:
+            break
+
+    # Get email from user
+    while True:
+        email = input('E-mail:  ')
+        if len(email) == 0:
+            console.print('Field cannot be empty', style='red')
+            continue
+        else:
+            break
+
+    try:
+        cursor = db_conn.cursor()
+        query = 'SELECT password FROM entries WHERE site_name=%s AND email=%s AND user_id=%s;'
+        cursor.execute(query, (app_name, email,  user['uid']))
+        db_conn.commit()
+        response = cursor.fetchone()
+        cursor.close()
+    except Exception:
+        console.print('Error: Something went wrong. Please try again later', style='red')
+        if cursor:
+            cursor.close()
+        print()
+        input('Press ENTER to continue...  ')
+        return
+
+    # Check if entry exists
+    if response is None:
+        print('-' * 36)
+        console.print('[red][X][/red] Entry for this site/app and email does not exist')
+        print()
+        input('Press ENTER to continue...  ')
+        return
+
+    # Extract data from response
+    encrypted_data = response[0].tobytes()
+    # Decrypt password
+    password = decrypt_password(encrypted_data, key)
+    # Copy password to the clipboard
+    pyperclip.copy(password)
+
+
+    print('-' * 36)
+    console.print('[green][OK][/green] Password has been copied to the clipboard')
+    print()
+    input('Press ENTER to continue...  ')
