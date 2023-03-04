@@ -12,6 +12,9 @@ console = Console()
 def encrypt_password(data, key):
     """
     Enctypts password with given key and returns encrypted data in bytes array with IV in first 16 bytes
+
+    :param: data: str - data (password) to encrypt
+    :param: key: bytes - hash key to encrypt/decrypt password
     """
     cipher = AES.new(key, AES.MODE_CFB)
     iv = cipher.iv
@@ -23,6 +26,9 @@ def encrypt_password(data, key):
 def decrypt_password(data, key):
     """
     Decrypts password with given key and returns plain text password
+
+    :param: data: bytes - data (password) to decrypt
+    :param: key: bytes - hash key to encrypt/decrypt password
     """
     IV = data[:16] # extract Initialization Vector from 16 first bytes of enctypted password
     encrypted_pass = data[16:] # extract encrypted password from the rest of encrypted stored data
@@ -36,6 +42,8 @@ def generate_random_password(length=18):
     """
     Generates random password from set of letters, digits and psecial characters
     with specified length (default is 18)
+
+    :param length: int - length of password (default is 18)
     """
     random_source_set = string.ascii_letters + string.digits + '!@#$%^&(){}[]-_'
 
@@ -74,6 +82,8 @@ def display_menu():
 def display_entries(data):
     """
     Displays list of entries in read-friendly table form
+
+    :param data: list - entries retered from database
     """
     headers = ['Site/App Name', 'E-mail', 'Site URL']
 

@@ -23,6 +23,10 @@ def add_entry(db_conn, user, key):
     Gets site/app name, username (or email)
     password (if user skip this program will generete it for him)
     and site url (optional) from user and store it in database
+
+    :param: db_conn: object - database connection object
+    :param: user: dict - authenticated user dictionary
+    :param: key: bytes - hash key to encrypt/decrypt password
     """
     try:
         cursor = db_conn.cursor()
@@ -110,6 +114,9 @@ def add_entry(db_conn, user, key):
 def delete_entry(db_conn, user):
     """
     Gets app/site name and email from user and deletes entry for this app/site
+
+    :param: db_conn: object - database connection object
+    :param: user: dict - authenticated user dictionary
     """
 
     # Get site/app name from user
@@ -172,6 +179,9 @@ def delete_entry(db_conn, user):
 def get_entries(db_conn, user):
     """
     Fetches list of entries for current user
+
+    :param: db_conn: object - database connection object
+    :param: user: dict - authenticated user dictionary
     """
     try:
         cursor = db_conn.cursor()
@@ -194,6 +204,10 @@ def get_entries(db_conn, user):
 def get_password(db_conn, user, key):
     """
     Gets password for specified entry (by app/site name and email) and copy it to the clipboard
+
+    :param: db_conn: object - database connection object
+    :param: user: dict - authenticated user dictionary
+    :param: key: bytes - hash key to encrypt/decrypt password
     """
 
     # Get site/app name from user
