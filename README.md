@@ -21,7 +21,7 @@ This project was built with Python v3.11.1 and uses following technologies:
 
 ### Download
 
-You can download the package with finished executable version of this application from [here](https://1drv.ms/u/s!AlGBPTpcrcFXi38JsrrOObiO-iLY?e=IgIGCd)
+You can download the package with finished executable version of this application from [here](https://1drv.ms/f/s!AlGBPTpcrcFXi37OoYYyXKbey48r?e=lO1awC)
 (select version for your operating system and save this folder to your compupter).
 
 ### Lauching the application
